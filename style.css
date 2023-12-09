@@ -62,7 +62,7 @@ header {
 }
 
 #about {
-    font-size: 3rem;
+    font-size: 2.5rem;
     margin-right: 1rem;
 }
 
@@ -79,9 +79,9 @@ header {
 main {
     box-sizing: border-box;
     width: 100%;
-    height: 88vh;
+    height: 90vh;/*I think this could be handled better*/   
     position: relative;
-    top: 6vw;
+    top: 80.5px; /*6vw;
     /*padding-top: 5.125rem;*/
     padding-left: 2vw;
     padding-right: 2vw;
@@ -89,8 +89,22 @@ main {
     z-index: 1;
     /*Need to fix this so there aren't black gaps where image doesn't cover*/background: url("https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F355374289%2F171885889364%2F1%2Foriginal.20220915-213000?w=1000&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C237%2C2840%2C1420&s=4a444cebc7a0785b5118e33cbb2c7365") no-repeat;
     background-size: cover;
+    background-attachment: fixed;
     box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.907);
+    overflow: scroll;
 }
+
+/*#background-image {
+    height: 100vh;
+    position: sticky;
+    top: 80.5px;
+    z-index: 1;
+    background: url("https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F355374289%2F171885889364%2F1%2Foriginal.20220915-213000?w=1000&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C237%2C2840%2C1420&s=4a444cebc7a0785b5118e33cbb2c7365") no-repeat;
+    background-size: cover;
+    box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.907);
+}*/
+
+/* Screen 1 - Intro */
 
 #hero-section {
     display: flex;
@@ -100,7 +114,7 @@ main {
 #description {
     width: 60%;
     /*margin: 0 auto;*/
-    margin-top: 4rem;
+    margin-top: 2.5rem;
     margin-bottom: 3rem;
 }
 
@@ -109,7 +123,8 @@ main {
 }
 
 #description h1 {
-    font-size: 2rem;
+    font-size: 1.5rem;
+    line-height: 1.5;
 }
 
 #description h2 {
@@ -117,8 +132,14 @@ main {
 }
 
 #description li {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     line-height: 1.5;
+}
+
+#about-description {
+    line-height: 1.5;
+    font-weight: 400;
+    font-size: 1.5rem;
 }
 
 #ready, #start-show {
@@ -136,9 +157,9 @@ main {
     border-color: white;
 }
 
-#review-container {
+#review-section-container {
     width: 30%;
-    margin-top: 4rem;
+    margin-top: 2.5rem;
 }
 
 #reviews-left {
@@ -160,20 +181,101 @@ h4 {
     color: gold;
 }
 
+@media only screen and (max-width: 760px) {
+    #hero-section {
+        flex-direction: column;
+    }
+
+    #description {
+        width: 90%;
+        margin-bottom: 0.5rem;
+    }
+
+    #ready, #start-show {
+        margin-bottom: 1.5rem;
+    }
+
+    #review-section-container {
+        width: 100%;
+        margin-top: 0rem;
+    }
+
+    #reviews-left {
+        border: none;
+        padding-left: 0rem;
+    }
+
+    h4 {
+        margin-bottom: 1.5rem;
+    }
+
+    #reviews-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .review {
+        width: 45%;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    #logo-mic {
+        width: 60px;
+    }
+    
+    #logo {
+        font-size: 2.5rem;
+    }
+
+    #about {
+        font-size: 2rem;
+    }
+
+    #description h1, #description h2 {
+        font-size: 1.25rem;
+    }
+
+    #description li {
+        font-size: 1rem;
+    }
+
+    #ready, #start-show {
+        padding: 1rem;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    #reviews-container {
+        display: block;
+    }
+
+    .review {
+        width: 70%;
+    }
+}
+
+/* Screen 2 - Choose a comic */
+
 #choose-a-comic-container {
-    display: none;
-    position: absolute;
+    /*box-sizing: border-box;*/
+    width: 100%;
+    /*display: none;*/
+    /*position: absolute;*/
     padding-top: 2rem;
+    /*padding-left: 2vw;
+    padding-right: 2vw;*/
 }
 
 #comic-header {
-    font-size: 2.5rem;
+    font-size: 1.5rem;
     padding-bottom: 1rem;
 }
 
 #comic-container {
     display: flex;
-    margin-bottom: 1rem;
+    margin-bottom: 3rem;
 }
 
 .comic-choice {
@@ -190,7 +292,7 @@ h4 {
 }
 
 .comic-headshot {
-    width: 16vw;
+    width: 15.75vw;
 }
 
 .comic-choice h3 {
@@ -201,15 +303,39 @@ h4 {
     display: none;
 }
 
+@media only screen and (max-width: 960px) {
+    #comic-container {
+        flex-wrap: wrap;
+        margin-bottom: 0rem;
+    }
+
+    .comic-choice {
+        font-size: 1.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .comic-headshot {
+        width: 30vw;
+    };
+}
+
+@media only screen and (max-width: 600px) {
+    .comic-choice {
+        font-size: 1.5rem;
+    }
+}
+
+/* Screen 3 - The comic's set */
+
 #complete-set {
-    display: none; /*Change this to flex in order to get the section to show initially the way it should*/
+    /*display: none; *//*Change this to flex in order to get the section to show initially the way it should*/
     flex-direction: column;
     position: relative;
     top: 6vh;
 }
 
 #host-intro {
-    width: 75%;
+    width: 90%;
     font-size: 1.5rem;
     margin-bottom: 3rem;
     margin-left: 3rem;
@@ -230,14 +356,14 @@ h4 {
 .comic-headshot-for-bit {
     width: 10rem;
     height: 100%;
-    border-right: 0.25rem solid white;
+    /*border-right: 0.25rem solid white;*/
 }
 
 .comic-bit-container {
     border: 2px solid white;
     margin: 0rem 0.5rem 0.5rem 0;
     padding: 1rem;
-    width: 60%;
+    width: 70%;
     min-height: 5rem;
     font-size: 2rem;
 }
@@ -254,8 +380,83 @@ h4 {
     font-family: 'VT323';
 }
 
+@media only screen and (max-width: 1000px) {
+    .bit-container {
+        width: 100%;
+    }
 
+    .comic-output-container {
+        width: 100%;
+    }
+
+    .comic-bit-container {
+        font-size: 1.5rem;
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 920px) {
+    .audience-feedback-container {
+        flex-wrap: wrap;
+    }
+
+    .audience-feedback-container button {
+        margin-bottom: 0.5rem;
+    }
+}
+
+@media only screen and (max-width: 760px) {
+    #host-intro {
+        font-size: 1.25rem;
+        margin-left: 1.5rem;
+    }
+
+    .bit-container {
+        width: 100%;
+    }
+
+    .comic-headshot-for-bit {
+        width: 20%;
+    }
+
+    .comic-bit-container p {
+        font-size: 1.5rem;
+        width: 100%;
+    }
+
+    .audience-feedback-container {
+        margin-left: 20%;
+    }
+}
+
+/* Footer */
 
 footer {
+    margin-top: 2rem;
     margin-bottom: 2rem;
+    padding: 0 2vw;
+    /*border-top: 1px solid white;*/
+    color: white;
+    position: relative;
+    /*bottom: 0;*/
+    z-index: 1;
+    background-color: transparent;
+}
+
+footer p {
+    width: 60%;
+    font-family: 'VT323';
+    color: darkgrey;
+}
+
+#disclaimer-start {
+    font-weight: 700;
+}
+
+footer a {
+    text-decoration: underline;
+}
+
+footer a:hover {
+    color: gold;
 }

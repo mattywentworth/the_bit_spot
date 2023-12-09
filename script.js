@@ -1,11 +1,13 @@
 /*
-10/19 near-term things to add:
--USE SAME APPROACH AS CREATEARRAYOFCOMICS WITH THE FEEDBACK BUTTONS. ITERATING WITH A SIMPLE HTML COLLECTION ISN'T WORKING? REFERENCE LINES 13, 45, 61, 86
--write more on the About page
--add a disclaimer in the footer about how the user is agreeing to be shown content from chatGPT, which is unpredictable and based on prompts provided by this program in the context of available documentation on each of the comics
--change joke feedback button design so that the feedback chosen persists and isn't available to be clicked anymore
+10/23 near-term things to add:
+-udpate readme on github
+-make design of about page better
+-update background image so there is parallax scrolling(?) over it and it stays in place?
+-anything accessibility-related. add alt tags and Aria labels. what else?
 -make the page auto-scroll down so that the entirety of the next joke is exposed without scrolling
 -update darkenFeedbackButtons func to remove hover pseudo class styling
+-come up with a Jeselnik path where the jokes are pre-written in a js object, and the punchline is blurred (so it doesn't get spoiled) and you click to expose it
+-figure out how to anchor the footer to the bottom of the html doc, even when dom elements are being injected - have js that controls "if main height < vh, make footer sticky to bottom? IF NOT, make footer relative????"
 */
 
 const sectionHero = document.getElementById('hero-section');
@@ -18,12 +20,14 @@ const completeSet = document.getElementById('complete-set');
 //const testLMAO = document.getElementsByClassName(`feedback-button-${jokeNumber}`);
 
 
+/*Function used when this was initially a single HTML file:
 const showChooseAComic = () => {
     sectionHero.style.display = 'none';
     containerChooseAComic.style.display = 'block';
 }
 
 buttonReady.addEventListener('click', showChooseAComic);
+*/
 
 /*
 Thoughts on what to do next:
@@ -41,9 +45,10 @@ Give it up for Norm MacDonald!"
 */
 
 const containerOfComics = document.getElementById('comic-container');
-const elementsOfComics = containerOfComics.children;
+//const elementsOfComics = containerOfComics.children;
 
 const createArrayOfComics = () => {
+    const elementsOfComics = containerOfComics.children; //Seeing if this works here instead of line 48
     const comicArray = [];
     for (let i = 0; i < elementsOfComics.length; i++) {
         comicArray.push(elementsOfComics[i].id);
@@ -69,6 +74,9 @@ const createUnclickedComicArray = (e) => {
 
 const darkenComics = (e) => {
     const selectedComic = identifySelectedComic(e);
+    //Updating session storage with comic name to persist to the next page
+    sessionStorage.setItem('comic-name', selectedComic);
+    //End session storage section
     const unclickedComicArray = createUnclickedComicArray(e);
     //document.getElementById('logo').innerHTML = unclickedComicArray;
     for (i = 0; i < unclickedComicArray.length; i++) {
@@ -92,16 +100,53 @@ const comicContent = {
     'Anthony Jeselnik': {
         name: 'Anthony Jeselnik',
         headshot: 'https://www.inquirer.com/resizer/z5H1_s5XVkY0BliLYH6pHhgMCXI=/760x507/smart/filters:format(webp)/arc-anglerfish-arc2-prod-pmn.s3.amazonaws.com/public/JNU76P5V6FFPJJIZL3DIMLU6GE.jpg',
-        intro: "He haHe has recorded three hour-long specials - Shakespeare, Caligula, and Fire in the Maternity Ward. He was the host of The Jeselnik Offensive on Comedy Central, until they fired him for celebrating a shark attack. Please welcome to the page... Anthony Jeselnik!",
+        intro: "12345He has recorded three hour-long specials - \"Shakespeare,\" \"Caligula,\" \"Thoughts and Prayers,\" and \"Fire in the Maternity Ward.\" He was the host of \"The Jeselnik Offensive\" on Comedy Central, until they fired him for celebrating a shark attack. Please welcome to the page... Anthony Jeselnik!",
         jokes: [
             {0/*NEED TO INVESTIGATE THIS AGAIN TO MAKE SURE IT WORKS*/: 'I\'ve lived in New York for 5 years. New York is the best city in the world. Not only do I want to record my first album there, I wanna bury my kids there.'},
-            {1: 'Who do you think is smarter: Jesus or Buddha? I mean, just in terms of not getting themselves crucified. Who do you think is smarter: Jesus or Buddha? I mean, just in terms of not getting themselves crucified. Who do you think is smarter: Jesus or Buddha? I mean, just in terms of not getting themselves crucified. Who do you think is smarter: Jesus or Buddha? I mean, just in terms of not getting themselves crucified. Who do you think is smarter: Jesus or Buddha? I mean, just in terms of not getting themselves crucified. Who do you think is smarter: Jesus or Buddha? I mean, just in terms of not getting themselves crucified.'},
-            {2: 'My ex-girlfriend had a lot of, like, really annoying habits. I think the worst was that she loved to read women’s magazines, like Cosmo or, uh… or things like Cosmo. And she would flip straight to the relationship quiz. And not only would she present that to me as if it was, like, a fun activity for us to do together — even though every question is designed to fuck my entire world up. But even worse is she would get mad at my answers and make me change them so we’d get the best score. Like, I’ll never forget the last time we played that game. She was like, “Anthony, if you could have lunch with anyone in the world, living or dead, who would it be?” And I said, “I don’t know. Caligula.” And she goes, “Really? Caligula? That’s your answer? That’s what you’re gonna say to me, your girlfriend? Are you sure?” I said, “Oh, I’m sorry, baby. Let me change that. I’d have lunch with you. And you’d be dead.'} 
+            {1: 'Who do you think is smarter: Jesus or Buddha? I mean, just in terms of not getting themselves crucified. Maybe the request to ChatGPT should be to keep these jokes under a certain word count in order to make them easier to consume? This is a test to figure out how long a joke can be while keeping it short enough and still be short enough to be pleasant. This text is about 80 word long now.'},
+            {2: 'My sister just had a baby, but she won\'t let me hold it. She\'s afraid I\'m gonna dropt it. Like I\'m some kind of idiot. Like I don\'t have a million other ways.. to hurt that baby.'},
+            {3: 'This is not yet connected to ChatGPT and is only working off of sample jokes. No more jokes available right now.'}
         ]
     },
     'Norm MacDonald': {
         headshot: 'https://imagez.tmz.com/image/a9/1by1/2021/09/14/a9f0bff08c8b40949bac75319542e643_xl.jpg',
-        intro: "Many people consider him the best host of Weekend Update. Along with Adam Egret, he hosted Norm MacDonald Live, the funniest podcast ever. He was an old soul and an old chunk of coal. Please welcome to the page... Norm MacDonald!",
+        intro: "12345Smart people consider him the best host of Weekend Update on SNL. He recorded 3 comedy albums - \"Ridiculous,\" \"Me Doing Stand-Up,\", \"Hitler's Dog, Gossip & Trickery,\" and \"Norm MacDonald: Nothing Special.\". Please welcome the old chunk of coal... Norm MacDonald!",
+        jokes: [
+            {0: 'Joke 0'},
+            {1: 'Joke 1'},
+            {2: 'Joke 2'}
+        ]
+    },
+    'Michelle Wolf': {
+        headshot: 'https://images.squarespace-cdn.com/content/v1/55695205e4b0b0ed5ed23665/1629120664899-IK4KXUBNIGBJ6IEHIXLU/Michelle+Wolf.jpg?format=2500w',
+        intro: '12345She\'s been a writer and contributor for \"The Late Show\" with Seth Myers and \"The Daily Show\" with Trevor Noah. She\'s recorded three specials and was the host of the White House Press Correspondents dinner in 2018. Please welcome to the page... Michelle Wolf!',
+        jokes: [
+            {0: 'Joke 0'},
+            {1: 'Joke 1'},
+            {2: 'Joke 2'}
+        ]
+    },
+    'Hannibal Buress': {
+        headshot: 'https://i.guim.co.uk/img/media/ebfd8cd9e6e7eeca744e77f19ede9686ebdfcdf1/201_461_2502_1501/master/2502.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=81dd5734c30399d1744d3383a68ff44e',
+        intro: '12345He\'s a writer, rapper, and comedian. In a 2014 performance in Philadelphia, he told jokes about Bill Cosby\'s history with sexual assault, which kicked off the public\'s awareness of Cosby being a major asshole and hypocrite. Please welcome to the page... Hannibal Buress!',
+        jokes: [
+            {0: 'Joke 0'},
+            {1: 'Joke 1'},
+            {2: 'Joke 2'}
+        ]
+    },
+    'Maria Bamford': {
+        headshot: 'https://media.gq.com/photos/64f7525d949fa60bcaf85cb6/1:1/w_1125,h_1125,c_limit/bamford.jpg',
+        intro: '12345She\'s recorded 9 specials, and her material has focused on family issues, depression, anxiety, and suicide since before it was cool to be so forthcoming about those struggles. Please welcome the old baby to the page... Maria Bamford!',
+        jokes: [
+            {0: 'Joke 0'},
+            {1: 'Joke 1'},
+            {2: 'Joke 2'}
+        ]
+    },
+    'Ricky Gervais': {
+        headshot: 'https://media.gq.com/photos/5893b170fa95131655778529/1:1/w_1330,h_1330,c_limit/gq-ricky-gervais.jpg',
+        intro: '12345You can thank him for giving us \"The Office\" and being an intelligent critic of organized religion. He\'s recorded multiple specials and was included in Time\'s list of 100 most influential people in the world. Please welcome to the page... Ricky Gervais!',
         jokes: [
             {0: 'Joke 0'},
             {1: 'Joke 1'},
@@ -124,7 +169,8 @@ const animateHostIntro = () /*Later on will likely need to pass in argument of c
     completeSet.appendChild(introDiv);
     introDiv.setAttribute('id', 'host-intro');
     const introTextDiv = document.getElementById('host-intro');
-    const comicID = completeSet.dataset.comic;
+    const comicID = sessionStorage.getItem('comic-name'); //completeSet.dataset.comic;
+    //completeSet.innerHTML = comicID;
     const hostText = comicContent[comicID].intro;
     if (i < hostText.length) {
         introTextDiv.innerHTML += hostText.charAt(i); //NEED TO FIND OUT WHY THIS IS STARTING AT CHARAT(5)!!!
@@ -149,13 +195,79 @@ function delayIntro () {
 
 
 //This won't be useful until you use the chatGPT api or build in some kind of order in the initial JS object
-let jokeNumber = 0
+let jokeNumber = 0;
+let jokeOrder;
+
+const createJokeOrder = () => {
+    const jokeOrderOptions = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth'];
+    jokeOrder = jokeOrderOptions[jokeNumber];
+    return jokeOrder;
+}
+
+let reactionPromptObj = {
+    lmao: 'laughed their asses off at your last joke',
+    lol: 'laughed loudly at your last joke',
+    chuckle: 'laughed audibly but not loudly at your last joke',
+    smile: 'thought your last joke was amusing but didn\'t laugh out loud',
+    meh: 'didn\'t laugh at your last joke but also didn\'t hate it',
+    crickets: 'didn\'t laugh at your last joke and wasn\'t amused by it at all',
+    heckle: 'verbally heckled you after your last joke',
+    leave: 'hated your last joke so much that they\'re walking out of the club' //Will need to transform the innerHTML of the corresponding button so it can access the object property
+};
+
+/*
+const constructOpenAIPrompt = () => {
+    const nextJoke = createJokeOrder();
+    const selectedFeedback = identifySelectedFeedbackButton(e);
+    const lastReaction = reactionPromptObj[selectedFeedback]; //need to remove joke number from reaction button id value
+    const comicName = sessionStorage.getItem('comic-name'); //completeSet.dataset.comic;
+    return `Tell the ${nextJoke} joke of a stand-up performance as if you're ${comicName} and the audience ${lastReaction}.`;
+}
+
+const openAIRequest = async () => {
+    const apiURL = 'https://api.openai.com/v1/chat/completions';
+    const apiKey = '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';
+    const nextPrompt = constructOpenAIPrompt();
+    try {
+        const response = await fetch(apiURL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${apiKey}`,
+            },
+            body: JSON.stringify({
+                model: 'gpt-3.5-turbo',
+                messages: [{role: 'user', content: `${nextPrompt}`}]
+            }),
+        });
+
+        const data = await response.json();
+        return data.choices[0].message.content;
+    } catch (error) {
+        console.log(error);
+        console.log(`Technology issues aren't funny.`)
+    };
+};
+*/
+
+
+//Function close to finished but incomplete?
+/*const createReactionPrompt = feedbackClicked => {
+    let reaction = feedbackClicked.innerHTML;
+    const reactionPrompt = reactionPromptObj.[reaction];
+    return `Be aware that the audience ${reactionPrompt}.`
+}*/
+
+//OpenAI api key: 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
+
 
 const createJokeHTML = (e/*check to make sure this is being used correctly*/) => {
-    const comicID = completeSet.getAttribute('data-comic');
+    
+    const comicID = sessionStorage.getItem('comic-name'); //completeSet.getAttribute('data-comic');
 
     const bitContainer = document.createElement('div');
     bitContainer.setAttribute('class', 'bit-container');
+    bitContainer.setAttribute('id', `bit-${jokeNumber}`);
     completeSet.appendChild(bitContainer);
     const comicOutputContainer = document.createElement('div');
     comicOutputContainer.setAttribute('class', 'comic-output-container');
@@ -168,7 +280,7 @@ const createJokeHTML = (e/*check to make sure this is being used correctly*/) =>
     comicBitContainer.setAttribute('class', 'comic-bit-container');
     comicBitContainer.setAttribute('id', `comic-bit-${jokeNumber}`);
     comicOutputContainer.appendChild(comicBitContainer);
-    comicBitContainer.innerHTML = comicContent[comicID].jokes[jokeNumber][jokeNumber];//IS THERE A WAY TO MAKE THIS TEXT LIKE `JOKE${JOKENUMBER}`?
+    /*THIS IS WHERE YOU SET INNERHTML TO CHATGPT OUTPUT*//*comicBitContainer.innerHTML = constructJoke;*/ //comicContent[comicID].jokes[jokeNumber][jokeNumber];//IS THERE A WAY TO MAKE THIS TEXT LIKE `JOKE${JOKENUMBER}`?
 
     //NEED TO CREATE 2 DIFFERENT JS FUNCTION FOR ALL OF THIS (OR MORE) SO IT'S MORE CLEAN?
     const audienceFeedbackContainer = document.createElement('div');
@@ -177,40 +289,45 @@ const createJokeHTML = (e/*check to make sure this is being used correctly*/) =>
     bitContainer.appendChild(audienceFeedbackContainer);
     const buttonLMAO = document.createElement('button');
     audienceFeedbackContainer.appendChild(buttonLMAO);
-    buttonLMAO.setAttribute('id', `lmao-${jokeNumber}`);
+    buttonLMAO.setAttribute('id', `lmao`);
     buttonLMAO.setAttribute('class', `feedback-button-${jokeNumber}`);
     
     buttonLMAO.innerHTML = 'LMAO';
     const buttonLOL = document.createElement('button');
     audienceFeedbackContainer.appendChild(buttonLOL);
-    buttonLOL.setAttribute('id', `lol-${jokeNumber}`);
+    buttonLOL.setAttribute('id', `lol`);
     buttonLOL.setAttribute('class', `feedback-button-${jokeNumber}`);
     buttonLOL.innerHTML = 'LOL';
     const buttonChuckle = document.createElement('button');
     audienceFeedbackContainer.appendChild(buttonChuckle);
-    buttonChuckle.setAttribute('id', `chuckle-${jokeNumber}`);
+    buttonChuckle.setAttribute('id', `chuckle`);
     buttonChuckle.setAttribute('class', `feedback-button-${jokeNumber}`);
     buttonChuckle.innerHTML = 'Chuckle';
+    const buttonSmile = document.createElement('button');
+    audienceFeedbackContainer.appendChild(buttonSmile);
+    buttonSmile.setAttribute('id', `smile`);
+    buttonSmile.setAttribute('class', `feedback-button-${jokeNumber}`);
+    buttonSmile.innerHTML = 'Smile';
     const buttonMeh = document.createElement('button');
     audienceFeedbackContainer.appendChild(buttonMeh);
-    buttonMeh.setAttribute('id', `meh-${jokeNumber}`);
+    buttonMeh.setAttribute('id', `meh`);
     buttonMeh.setAttribute('class', `feedback-button-${jokeNumber}`);
     buttonMeh.innerHTML = 'Meh';
     const buttonCrickets = document.createElement('button');
     audienceFeedbackContainer.appendChild(buttonCrickets);
-    buttonCrickets.setAttribute('id', `crickets-${jokeNumber}`);
+    buttonCrickets.setAttribute('id', `crickets`);
     buttonCrickets.setAttribute('class', `feedback-button-${jokeNumber}`);
     buttonCrickets.innerHTML = 'Crickets';
     const buttonHeckle = document.createElement('button');
     audienceFeedbackContainer.appendChild(buttonHeckle);
-    buttonHeckle.setAttribute('id', `heckle-${jokeNumber}`);
+    buttonHeckle.setAttribute('id', `heckle`);
     buttonHeckle.setAttribute('class', `feedback-button-${jokeNumber}`);
     buttonHeckle.innerHTML = 'Heckle';
     const buttonLeave = document.createElement('button');
     audienceFeedbackContainer.appendChild(buttonLeave);
-    buttonLeave.setAttribute('id', `leave-${jokeNumber}`);
+    buttonLeave.setAttribute('id', `leave`);
     buttonLeave.setAttribute('class', `feedback-button-${jokeNumber}`);
-    buttonLeave.innerHTML = 'Leave the Club';
+    buttonLeave.innerHTML = 'Leave';
 
 //NEED TO ADD AN EVENT LISTENER TO THE FEEDBACK BUTTONS THEMSELVES?? THERE NEEDS TO BE A CLICK EVENT LISTENER TO GENERATE THE NEXT
 //JOKE AND A SEPARATE(?) EVENT LISTENER TO CHANGE THE STYLING OF THE PREVIOUS JOKE'S BUTTONS. RIGHT?
@@ -220,10 +337,68 @@ const createJokeHTML = (e/*check to make sure this is being used correctly*/) =>
         audienceFeedbackButton[i].addEventListener('click', createJokeHTML);
     };*/
 //NEED TO FIND A PLACE TO USE ALL OF THESE FUNCTIONS
+    /*
     const identifySelectedFeedbackButton = (e) => {
         const clickedFeedbackButton = e.target.id;
         return clickedFeedbackButton;
     };
+    */
+
+    /*
+    const identifySelectedFeedbackButton = (e) => {
+        const clickedFeedbackButton = e.target.id;
+        return clickedFeedbackButton;
+    };
+    */
+    const constructInitialOpenAIPrompt = () => {//Created this func in order to create a conditional for creating the opener or following jokes, but one requires the 'e' as an argument and the other doesn't, so i don't think this will work
+        const firstJoke = 'first';
+        const comicName = sessionStorage.getItem('comic-name');
+        return `Tell the ${firstJoke} joke of a stand-up performance as if you're ${comicName} and the audience is excited to see you perform.`;
+    };
+
+    const constructOpenAIPrompt = (e) => {//ADDING 'e' as func argument in order to create a conditional!!
+        const nextJoke = createJokeOrder();
+        const identifySelectedFeedbackButton = (e) => {
+            const clickedFeedbackButton = e.target.id;
+            return clickedFeedbackButton;
+        };
+        const selectedFeedback = identifySelectedFeedbackButton(e);
+        const lastReaction = reactionPromptObj[selectedFeedback]; //need to remove joke number from reaction button id value
+        const comicName = sessionStorage.getItem('comic-name'); //completeSet.dataset.comic;
+        return `Tell the ${nextJoke} joke of a stand-up performance as if you're ${comicName} and the audience ${lastReaction}.`;
+    }
+    
+    const openAIRequest = async () => {
+        const apiURL = 'https://api.openai.com/v1/chat/completions';
+        const apiKey = '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';
+        const nextPrompt = constructOpenAIPrompt();
+        try {
+            const response = await fetch(apiURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${apiKey}`,
+                },
+                body: JSON.stringify({
+                    model: 'gpt-3.5-turbo',
+                    messages: [{role: 'user', content: `${nextPrompt}`}]
+                }),
+            });
+    
+            const data = await response.json();
+            return data.choices[0].message.content;
+        } catch (error) {
+            console.log(error);
+            console.log(`Technology issues aren't funny.`)
+        };
+    };
+
+    const constructJoke = openAIRequest();
+    
+    comicBitContainer.innerHTML = constructJoke;
+
+    //Wrapper for OpenAI stuff
+    //End wrapper for OpenAI stuff
 
     //WHY DO I HAVE TO DECLARE THE FOLLOWING 2 VARIABLES OUTSIDE OF THE CREATEFEEDBACKBUTTONARRAY FUNCTION??
     const containerOfFeedbackButtons = document.getElementById(`feedback-joke-${jokeNumber}`);
@@ -285,6 +460,9 @@ const createJokeHTML = (e/*check to make sure this is being used correctly*/) =>
         audienceFeedbackButton[i].addEventListener('click', darkenFeedbackButtons);
     };
 
+    const newestJokeContainer = document.getElementById(`bit-${jokeNumber}`);
+    newestJokeContainer.scrollIntoView(); //NEED TO FIGURE OUT HOW TO ANCHOR THIS TO TOP OF ELEMENT. MAYBE MAIN ELEMENT'S OFFSET FROM TOP IS CAUSING THE PROBLEM?
+
     jokeNumber += 1;
 };
 
@@ -300,15 +478,24 @@ const delayCreateJokeHTML = () => {
 }*/
 
 const startTheShow = async () => {
-    containerChooseAComic.style.display = 'none';
-    completeSet.style.display = 'block';
+    //containerChooseAComic.style.display = 'none';
+    //completeSet.style.display = 'block';
     //await delayIntro();
     setTimeout(animateHostIntro, 1000);
-    setTimeout(createJokeHTML, 1000); //Need to await the prior function? Etiehr way, NEED TO MAKE IT ASYNC TO FUNCTION PROPERLY
+    setTimeout(createJokeHTML, 10000); //Need to await the prior function? Etiehr way, NEED TO MAKE IT ASYNC TO FUNCTION PROPERLY
     //await delayCreateJokeHTML();
 }
 
-startShow.addEventListener('click', startTheShow);
+document.addEventListener('DOMContentLoaded', startTheShow);
+/*Code to test what's going wrong with event listener
+const changeLogoText = () => {
+    const logoText = document.getElementById('logo-text');
+    logoText.innerHTML = 'TEST';
+};
+
+completeSet.addEventListener('click', changeLogoText);
+*/
+//startShow.addEventListener('click', startTheShow);
 
 /*const feedbackSection = document.querySelectorAll('feedback-button'); ISSUE HERE IS THAT NOT HAVING ASYNC FUNCTIONS MEANS THIS ELEMENT DOESN'T EXIST YET */
 //feedbackSection.addEventListener('click', createJokeHTML);
